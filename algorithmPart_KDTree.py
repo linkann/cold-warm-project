@@ -5,7 +5,7 @@ from matplotlib.patches import Circle
 
 # today_windchill(오늘의 체감온도), today_DTR(오늘의 일교차), radius : 실행을 위해 각각 1, 8, 0.5로 임의의 값 지정함.
 # today_windchill 과 today_DTR 은 JSON 으로부터 value 넘겨 받아야 함.
-today_windchill = 1
+today_windchill = 2
 today_DTR = 8
 radius = 0.5
 
@@ -18,7 +18,10 @@ address = T.query_ball_point([today_windchill, today_DTR], r=radius)
 print("address : ", address)
 print("\n")
 print("dateArray: ", dateArray[address])
-print("specific dateArray example: ", dateArray[address[2]])
+
+# 아래의 23번째 line은 today_windchill 과 today_DTR 값 변경 시, null 값 참조할 여지가 있기 때문에 주석처리함.
+#print("specific dateArray example: ", dateArray[address[2]])
+
 print("\n")
 print("windchill_DTR : \n", windchill_DTR[address])
 
