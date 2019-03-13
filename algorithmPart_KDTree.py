@@ -56,7 +56,6 @@ else:
 
 print("dateArray: ", dateArray[address])
 
-
 ## 파일 이름 설정
 length = len(address)
 length = 2
@@ -80,7 +79,7 @@ for i in range(length):
     bottom_img = img.imread(path + bottom)
     shoes_img = img.imread(path + shoes)
     jacket_img = img.imread(path + jacket)
-    #top_img = img.imread(path + top)
+    top_img = img.imread(path + top, 0)
 
     target_dir = "C:/Users/SOOKMYUNG/Desktop/cold-warm-project/"
     files = glob.glob(target_dir + "*.*")
