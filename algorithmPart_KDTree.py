@@ -56,33 +56,34 @@ else:
 
 print("dateArray: ", dateArray[address])
 
-## 파일 이름 설정
-length = len(address)
+#################
+# 이하 그래프 샘플 #
+#################
+point = [today_windchill, today_DTR]
+fig = plt.figure()
+ax = fig.add_subplot(111, aspect='equal')
+ax.add_patch(Circle(point, radius, color='r', fill=False))
+X, Y = [p[0] for p in windchill_DTR], [p[1] for p in windchill_DTR]
+plt.scatter(X, Y)
+plt.scatter([point[0]], [point[1]], c='r')
+plt.show()
+
+# length = len(address)
 length = 2
 temparr = [0, 1, 2, 3, 4, 5]
 for i in range(length):
     temparr[i] = dateArray[int(address[i])]
-print("===========================================================================")
 
 for i in range(length):
-    print("if문 i : ", i)
     recommendDate = temparr[i]
-    print("recommendDate : ", recommendDate)
-    top = str(recommendDate) + "_top.png"
-    bottom = str(recommendDate) + "_bottom.png"
-    shoes = str(recommendDate) + "_shoes.png"
-    jacket = str(recommendDate) + "_jacket.png"
-
     ## 절대 경로 설정
     path = "C:/Users/SOOKMYUNG/Desktop/cold-warm-project/"
-    # 출력이미지 변수 설정
-    bottom_img = img.imread(path + bottom)
-    shoes_img = img.imread(path + shoes)
-    jacket_img = img.imread(path + jacket)
-    top_img = img.imread(path + top, 0)
+    top_img = path + str(recommendDate) + "_top.png"
+    bottom_img = path + str(recommendDate) + "_bottom.png"
+    shoes_img = path + str(recommendDate) + "_shoes.png"
+    jacket_img = path + str(recommendDate) + "_jacket.png"
 
-    target_dir = "C:/Users/SOOKMYUNG/Desktop/cold-warm-project/"
-    files = glob.glob(target_dir + "*.*")
+    files = [bottom_img, shoes_img, jacket_img, top_img]
     x_min, y_min, y_size = calculateSize(files)
     file_list, x_size, x_min, y_min = resizeTomin(files, x_min, y_min, y_size)
     imageMerge(file_list, y_size, x_min, y_min, i)
