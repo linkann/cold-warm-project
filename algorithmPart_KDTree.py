@@ -6,6 +6,7 @@ import matplotlib.image as img
 import matplotlib.pyplot as plt
 from matplotlib import pyplot as plt
 from matplotlib.patches import Circle
+import os.path
 
 def calculateSize(files):
     size_x = []
@@ -37,10 +38,10 @@ def imageMerge(file_list, y_size, x_min, y_min, i):
     tempString = "C:/Users/SOOKMYUNG/Desktop/today_clothes_" + str(i) + ".png"
     new_image.save(tempString, "PNG")
 
-#today_windchill = np.genfromtxt('current.csv', dtype=None, delimiter=',', usecols=(2))
-#today_DTR = np.genfromtxt('current.csv', dtype=None, delimiter=',', usecols=(1))
-today_windchill = 1
-today_DTR = 8
+today_windchill = np.genfromtxt('current.csv', dtype=None, delimiter=',', usecols=(2))
+today_DTR = np.genfromtxt('current.csv', dtype=None, delimiter=',', usecols=(1))
+#today_windchill = 1
+#today_DTR = 8
 radius = 0.7
 
 windchill_DTR = np.genfromtxt('weather1.csv', dtype=None, delimiter=',', skip_header=1, usecols=(1, 2))
@@ -50,9 +51,14 @@ T = KDTree(windchill_DTR)
 address_rare = T.query_ball_point([today_windchill, today_DTR], r=radius)
 
 if len(address_rare) > 6:
-    address = address_rare[0:2]
-else:
-    address = address_rare
+    address = address_rare[0:4]
+elif len(address_rare) == 0:
+    radius = 3
+    address_rare = T.query_ball_point([today_windchill, today_DTR], r=radius)
+    if len(address_rare) > 6:
+        address = address_rare[0:4]
+    else:
+        address = address_rare
 
 print("dateArray: ", dateArray[address])
 
@@ -68,8 +74,8 @@ plt.scatter(X, Y)
 plt.scatter([point[0]], [point[1]], c='r')
 plt.show()
 
-# length = len(address)
-length = 2
+length = len(address)
+#length = 2
 temparr = [0, 1, 2, 3, 4, 5]
 for i in range(length):
     temparr[i] = dateArray[int(address[i])]
@@ -82,8 +88,18 @@ for i in range(length):
     bottom_img = path + str(recommendDate) + "_bottom.png"
     shoes_img = path + str(recommendDate) + "_shoes.png"
     jacket_img = path + str(recommendDate) + "_jacket.png"
+    set_img = path + str(recommendDate) + "_set.png"
 
-    files = [bottom_img, shoes_img, jacket_img, top_img]
+    unchecked_files = [top_img, bottom_img, shoes_img, jacket_img, set_img]
+    files = []
+    for file in unchecked_files:
+        print("files:", files)
+        if os.path.isfile(file):
+            image = Image.open(file)
+            files.append(file)
+
+    print("checked files:", files)
     x_min, y_min, y_size = calculateSize(files)
     file_list, x_size, x_min, y_min = resizeTomin(files, x_min, y_min, y_size)
     imageMerge(file_list, y_size, x_min, y_min, i)
+    
