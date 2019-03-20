@@ -49,9 +49,12 @@ dateArray = np.genfromtxt('weather1.csv', dtype=None, delimiter=',', skip_header
 
 T = KDTree(windchill_DTR)
 address_rare = T.query_ball_point([today_windchill, today_DTR], r=radius)
+# print("address rare : ", address_rare)
 
 if len(address_rare) > 6:
     address = address_rare[0:4]
+elif len(address_rare) > 0 & len(address_rare) <= 6:
+    address = address_rare
 elif len(address_rare) == 0:
     radius = 3
     address_rare = T.query_ball_point([today_windchill, today_DTR], r=radius)
