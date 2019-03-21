@@ -38,10 +38,10 @@ def imageMerge(file_list, y_size, x_min, y_min, i):
     tempString = "C:/Users/SOOKMYUNG/Desktop/today_clothes_" + str(i) + ".png"
     new_image.save(tempString, "PNG")
 
-today_windchill = np.genfromtxt('current.csv', dtype=None, delimiter=',', usecols=(2))
-today_DTR = np.genfromtxt('current.csv', dtype=None, delimiter=',', usecols=(1))
-#today_windchill = 1
-#today_DTR = 8
+# today_windchill = np.genfromtxt('current.csv', dtype=None, delimiter=',', usecols=(2))
+# today_DTR = np.genfromtxt('current.csv', dtype=None, delimiter=',', usecols=(1))
+today_windchill = 1
+today_DTR = 8
 radius = 0.7
 
 windchill_DTR = np.genfromtxt('weather1.csv', dtype=None, delimiter=',', skip_header=1, usecols=(1, 2))
@@ -78,10 +78,13 @@ plt.scatter([point[0]], [point[1]], c='r')
 plt.show()
 
 length = len(address)
-#length = 2
-temparr = [0, 1, 2, 3, 4, 5]
+# length = 2
+temparr = [0, 1, 2, 3, 4]
 for i in range(length):
     temparr[i] = dateArray[int(address[i])]
+
+temparr.sort(reverse=True)
+print("temparr: ", temparr)
 
 for i in range(length):
     recommendDate = temparr[i]
